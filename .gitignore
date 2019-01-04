@@ -1,0 +1,7 @@
+
+/example*/ys_gin_example
+/example*/example
+/example*/example.exe
+/example*/*.log
+/example*/*.conf
+/example*/proto/*.pb.go
