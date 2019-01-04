@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package proto.datasvr;
+
+enum OrderType {
+    ORDER_TYPE_NONE = 0;
+    ORDER_TYPE_BB_ENTRUST = 1; //币币委托订单，A
+    ORDER_TYPE_BB_TRADE = 2; //币币撮合订单，B
+    ORDER_TYPE_OTC_AD = 3; //法币广告订单，C
+    ORDER_TYPE_OTC_TRADE = 4; //法币成交订单，D
+}
+
+//生成订单序号
+message GenOrderNoRequest {
+    OrderType order_type = 1;
+    int32 step = 2;
+}
+message GenOrderNoResponse {
+    message Data {
+        string order_symbol = 1;
+        int64 no_start = 2;
+        int64 no_end = 3;
+    }
+
+    int32 code = 1;
+    string msg = 2;
+    Data data = 3;
+}
+
+service OrderNo {
+    //生成订单序号
+    rpc Gen (GenOrderNoRequest) returns (GenOrderNoResponse) {
+    };
+}

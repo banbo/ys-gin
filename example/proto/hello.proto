@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package proto;
+
+// 打招呼
+message HelloRequest {
+    string greeting = 1;
+}
+
+message HelloResponse {
+    message Data {
+        string replay = 1;
+    }
+
+    int32 code = 1;
+    string msg = 2;
+    Data data = 3;
+}
+
+// 拜拜
+message ByeRequest {
+    string bye = 1;
+}
+
+message ByeResponse {
+    message Data {
+        string replay = 1;
+    }
+
+    int32 code = 1;
+    string msg = 2;
+    Data data = 3;
+}
+
+
+service Hello {
+    // 打招呼
+    rpc SayHello (HelloRequest) returns (HelloResponse) {
+    };
+
+    // 拜拜
+    rpc SayBye (ByeRequest) returns (ByeResponse) {
+    };
+}
