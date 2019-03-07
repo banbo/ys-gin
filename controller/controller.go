@@ -41,22 +41,22 @@ func (c *Controller) Put(ctx *gin.Context, key string, value interface{}) {
 }
 
 // 正确的响应
-func (c *Controller) RespOK(ctx *gin.Context) {
+func (c *Controller) RespOK(ctx *gin.Context, data interface{}) {
 	resp := &Response{
 		Code: constant.RESPONSE_CODE_OK,
 		Msg:  "成功",
-		Data: ctx.Keys[SAVE_DATA_KEY],
+		Data: data,
 	}
 
 	ctx.JSON(http.StatusOK, resp)
 }
 
 // 错误的响应
-func (c *Controller) RespErr(ctx *gin.Context, options ...interface{}) {
+func (c *Controller) RespErr(ctx *gin.Context, data interface{}, options ...interface{}) {
 	resp := &Response{
 		Code: constant.RESPONSE_CODE_ERROR, // 默认是常规错误
 		Msg:  "",
-		Data: ctx.Keys[SAVE_DATA_KEY],
+		Data: data,
 	}
 
 	// 继续确定code、msg

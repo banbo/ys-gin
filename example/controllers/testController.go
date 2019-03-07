@@ -36,17 +36,17 @@ func (t *TestController) List(ctx *gin.Context) {
 	//获取参数
 	isPage, err := t.GetBool(ctx, "is_page")
 	if err != nil {
-		t.RespErr(ctx, "参数is_page格式错误")
+		t.RespErr(ctx, nil, "参数is_page格式错误")
 		return
 	}
 	pageIndex, err := t.GetInt(ctx, "page_index")
 	if isPage && (err != nil || pageIndex <= 0) {
-		t.RespErr(ctx, "参数page_index格式错误")
+		t.RespErr(ctx, nil, "参数page_index格式错误")
 		return
 	}
 	pageSize, err := t.GetInt(ctx, "page_size")
 	if isPage && (err != nil || pageSize <= 0) {
-		t.RespErr(ctx, "参数page_size格式错误")
+		t.RespErr(ctx, nil, "参数page_size格式错误")
 		return
 	}
 
@@ -65,15 +65,13 @@ func (t *TestController) List(ctx *gin.Context) {
 		modelList, list, err = new(models.TestModel).ListAll(filter)
 	}
 	if err != nil {
-		t.RespErr(ctx, err)
+		t.RespErr(ctx, nil, err)
 		return
 	}
 	modelList.Items = list
 
-	//设置返回值
-	t.Put(ctx, "list", modelList)
-
-	t.RespOK(ctx)
+	//返回
+	t.RespOK(ctx, modelList)
 	return
 }
 
@@ -82,25 +80,25 @@ func (t *TestController) Get(ctx *gin.Context) {
 	//获取参数
 	uid := t.GetString(ctx, "uid")
 	if len(uid) == 0 {
-		t.RespErr(ctx, "参数uid格式错误")
+		t.RespErr(ctx, nil, "参数uid格式错误")
 		return
 	}
 
 	//调用model
 	has, testModel, err := new(models.TestModel).Get(uid)
 	if err != nil {
-		t.RespErr(ctx, err)
+		t.RespErr(ctx, nil, err)
 		return
 	}
 	if !has {
-		t.RespErr(ctx, "用户不存在")
+		t.RespErr(ctx, nil, "用户不存在")
 		return
 	}
 
 	//设置返回值
 	t.Put(ctx, "user", testModel)
 
-	t.RespOK(ctx)
+	t.RespOK(ctx, testModel)
 	return
 }
 
@@ -109,12 +107,12 @@ func (t *TestController) Add(ctx *gin.Context) {
 	//获取参数
 	name := t.GetString(ctx, "name")
 	if len(name) == 0 {
-		t.RespErr(ctx, "参数name格式错误")
+		t.RespErr(ctx, nil, "参数name格式错误")
 		return
 	}
 	age, err := t.GetInt(ctx, "age")
 	if err != nil || age <= 0 {
-		t.RespErr(ctx, "参数age格式错误")
+		t.RespErr(ctx, nil, "参数age格式错误")
 		return
 	}
 
@@ -126,14 +124,11 @@ func (t *TestController) Add(ctx *gin.Context) {
 	//调用model
 	uid, err := new(models.TestModel).Add(data)
 	if err != nil {
-		t.RespErr(ctx, err)
+		t.RespErr(ctx, nil, err)
 		return
 	}
 
-	//设置返回值
-	t.Put(ctx, "uid", uid)
-
-	t.RespOK(ctx)
+	t.RespOK(ctx, uid)
 	return
 }
 
@@ -142,7 +137,7 @@ func (t *TestController) Update(ctx *gin.Context) {
 	//获取参数
 	uid := t.GetString(ctx, "uid")
 	if len(uid) == 0 {
-		t.RespErr(ctx, "参数id格式错误")
+		t.RespErr(ctx, nil, "参数id格式错误")
 		return
 	}
 
@@ -158,11 +153,11 @@ func (t *TestController) Update(ctx *gin.Context) {
 	//调用model
 	err := new(models.TestModel).Update(uid, params)
 	if err != nil {
-		t.RespErr(ctx, err)
+		t.RespErr(ctx, nil, err)
 		return
 	}
 
-	t.RespOK(ctx)
+	t.RespOK(ctx, nil)
 	return
 }
 
@@ -171,17 +166,17 @@ func (t *TestController) Delete(ctx *gin.Context) {
 	//获取参数
 	uid := t.GetString(ctx, "uid")
 	if len(uid) == 0 {
-		t.RespErr(ctx, "参数uid格式错误")
+		t.RespErr(ctx, nil, "参数uid格式错误")
 		return
 	}
 
 	//调用model
 	err := new(models.TestModel).Delete(uid)
 	if err != nil {
-		t.RespErr(ctx, err)
+		t.RespErr(ctx, nil, err)
 		return
 	}
 
-	t.RespOK(ctx)
+	t.RespOK(ctx, nil)
 	return
 }
