@@ -16,9 +16,10 @@ const (
 
 // 返回的结构
 type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+	Status string      `json:"status"`
+	Code   int         `json:"code"`
+	Msg    string      `json:"msg"`
+	Data   interface{} `json:"data"`
 }
 
 // controller
@@ -43,9 +44,10 @@ func (c *Controller) Put(ctx *gin.Context, key string, value interface{}) {
 // 正确的响应
 func (c *Controller) RespOK(ctx *gin.Context, data interface{}) {
 	resp := &Response{
-		Code: constant.RESPONSE_CODE_OK,
-		Msg:  "成功",
-		Data: data,
+		Status: "success",
+		Code:   constant.RESPONSE_CODE_OK,
+		Msg:    "成功",
+		Data:   data,
 	}
 
 	ctx.JSON(http.StatusOK, resp)
@@ -54,9 +56,10 @@ func (c *Controller) RespOK(ctx *gin.Context, data interface{}) {
 // 错误的响应
 func (c *Controller) RespErr(ctx *gin.Context, data interface{}, options ...interface{}) {
 	resp := &Response{
-		Code: constant.RESPONSE_CODE_ERROR, // 默认是常规错误
-		Msg:  "",
-		Data: data,
+		Status: "fail",
+		Code:   constant.RESPONSE_CODE_ERROR, // 默认是常规错误
+		Msg:    "",
+		Data:   data,
 	}
 
 	// 继续确定code、msg
