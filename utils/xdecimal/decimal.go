@@ -18,7 +18,16 @@ const (
 	DECIMAL_DIV DecimalOpt = 4 //除
 )
 
-func DecimalCalc(opt DecimalOpt, f1, f2 float64, f3 ...float64) (float64, error) {
+var pointLength int32 = 8
+
+func SetPointLength(l int32) {
+	if l < 1 {
+		return
+	}
+	pointLength = l
+}
+
+func decimalCalc(opt DecimalOpt, f1, f2 float64, f3 ...float64) (float64, error) {
 	d1 := decimal.NewFromFloat(f1)
 	d2 := decimal.NewFromFloat(f2)
 
@@ -52,7 +61,31 @@ func DecimalCalc(opt DecimalOpt, f1, f2 float64, f3 ...float64) (float64, error)
 
 	f, _ := d.Float64()
 
-	return strconv.ParseFloat(fmt.Sprintf("%.8f", f), 64) //保留8位小数
+	return strconv.ParseFloat(fmt.Sprintf(fmt.Sprintf("%%.%df", pointLength), f), 64) //保留8位小数
+}
+
+//加
+func Add(f1, f2 float64, f3 ...float64) float64 {
+	f, _ := decimalCalc(DECIMAL_ADD, f1, f2, f3...)
+	return f
+}
+
+//减
+func Sub(f1, f2 float64, f3 ...float64) float64 {
+	f, _ := decimalCalc(DECIMAL_SUB, f1, f2, f3...)
+	return f
+}
+
+//乘
+func Mul(f1, f2 float64, f3 ...float64) float64 {
+	f, _ := decimalCalc(DECIMAL_MUL, f1, f2, f3...)
+	return f
+}
+
+//除
+func Div(f1, f2 float64, f3 ...float64) float64 {
+	f, _ := decimalCalc(DECIMAL_DIV, f1, f2, f3...)
+	return f
 }
 
 var tenToAny map[int]string = map[int]string{
