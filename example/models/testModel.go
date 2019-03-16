@@ -24,12 +24,19 @@ func (TestModel) TableName() string {
 }
 
 //列表，分页
-func (t *TestModel) List(pageIndex int, pageSize int, filter map[string]string) (*model.ModelList, []*TestModel, error) {
+func (t *TestModel) List(pageIndex int, pageSize int, filter map[string]interface{}, orderBy string) (*model.ModelList, []*TestModel, error) {
 	session := model.Orm.Where("1=1")
 
 	//筛选
 	if v, ok := filter["name"]; ok {
 		session.And("name = ?", v)
+	}
+
+	//排序
+	if orderBy != "" {
+		session.OrderBy(orderBy)
+	} else {
+		session.OrderBy("uid DESC")
 	}
 
 	//获取分页
@@ -51,12 +58,19 @@ func (t *TestModel) List(pageIndex int, pageSize int, filter map[string]string) 
 }
 
 //列表，不分页
-func (t *TestModel) ListAll(filter map[string]string) (*model.ModelList, []*TestModel, error) {
+func (t *TestModel) ListAll(filter map[string]interface{}, orderBy string) (*model.ModelList, []*TestModel, error) {
 	session := model.Orm.Where("1=1")
 
 	//筛选
 	if v, ok := filter["name"]; ok {
 		session.Where("name = ?", v)
+	}
+
+	//排序
+	if orderBy != "" {
+		session.OrderBy(orderBy)
+	} else {
+		session.OrderBy("uid DESC")
 	}
 
 	var list []*TestModel

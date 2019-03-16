@@ -51,7 +51,7 @@ func (t *TestController) List(ctx *gin.Context) {
 	}
 
 	//筛选参数
-	filter := make(map[string]string)
+	filter := make(map[string]interface{})
 	if v, ok := t.GetParam(ctx, "name"); ok && v != "" {
 		filter["name"] = v
 	}
@@ -60,9 +60,9 @@ func (t *TestController) List(ctx *gin.Context) {
 	var modelList *model.ModelList
 	var list []*models.TestModel
 	if isPage { //分页
-		modelList, list, err = new(models.TestModel).List(pageIndex, pageSize, filter)
+		modelList, list, err = new(models.TestModel).List(pageIndex, pageSize, filter, "")
 	} else { //不分页
-		modelList, list, err = new(models.TestModel).ListAll(filter)
+		modelList, list, err = new(models.TestModel).ListAll(filter, "")
 	}
 	if err != nil {
 		t.RespErr(ctx, nil, err)
