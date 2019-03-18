@@ -8,7 +8,8 @@ import (
 )
 
 func Init(engine *gin.Engine) {
-	//全局跨域
+	//设置跨域
+	middleware.SetCorsOrigin([]string{"http://127.0.0.1"})
 	engine.Use(middleware.Cors())
 
 	new(controllers.TestController).Router(engine)
