@@ -128,7 +128,7 @@ func (t *TestModel) Update(uid string, params map[string]interface{}) error {
 		data["age"] = v
 	}
 
-	_, err = model.Orm.Table(t).Update(data)
+	_, err = model.Orm.Table(t).ID(uid).Update(data)
 	if err != nil {
 		return errors.NewSys(err)
 	}
@@ -138,7 +138,7 @@ func (t *TestModel) Update(uid string, params map[string]interface{}) error {
 
 //删除
 func (t *TestModel) Delete(uid string) error {
-	_, err := model.Orm.Id(uid).Delete(t)
+	_, err := model.Orm.ID(uid).Delete(t)
 	if err != nil {
 		return errors.NewSys(err)
 	}
