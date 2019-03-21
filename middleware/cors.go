@@ -29,6 +29,7 @@ func Cors() gin.HandlerFunc {
 		for _, v := range allowOrigins {
 			if v == origin {
 				ctx.Header("Access-Control-Allow-Origin", v)
+				break
 			}
 		}
 
