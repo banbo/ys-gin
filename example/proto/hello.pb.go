@@ -4,10 +4,12 @@
 package proto
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	context "golang.org/x/net/context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -20,7 +22,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // 打招呼
 type HelloRequest struct {
@@ -371,6 +373,17 @@ type HelloServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloResponse, error)
 	// 拜拜
 	SayBye(context.Context, *ByeRequest) (*ByeResponse, error)
+}
+
+// UnimplementedHelloServer can be embedded to have forward compatible implementations.
+type UnimplementedHelloServer struct {
+}
+
+func (*UnimplementedHelloServer) SayHello(ctx context.Context, req *HelloRequest) (*HelloResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (*UnimplementedHelloServer) SayBye(ctx context.Context, req *ByeRequest) (*ByeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SayBye not implemented")
 }
 
 func RegisterHelloServer(s *grpc.Server, srv HelloServer) {

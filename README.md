@@ -1,9 +1,53 @@
-ys-gin框架是基于gin框架开发。封装了mysql、redis、分布式id、controller、conf、log、grpc、error等组件。
+ys-gin框架是基于gin框架开发。封装了mysql、redis、controller、conf、log、grpc、error、websocket等组件，方便基于gin的web程序开发。
 
-example可以运行，封装了rpc服务端，example2里是rpc客户端。
 
-### proto
+###运行例子
 ```
+$ go get -u github.com/golang/protobuf/protoc-gen-go        #安装protoc-gen-go插件
+
+#example提供http服务+grpc服务
 $ cd example/proto
-$ protoc --go_out=plugins=grpc:./ hello.proto  # *.proto
+$ cp test.conf.default test.conf                            #按需修改配置
+$ protoc --go_out=plugins=grpc:./ *.proto
+$ go run main.go
+
+#example2编写grpc客户端调用example提供的grpc服务
+$ cd example2/proto
+$ cp test.conf.default test.conf                            #按需修改配置
+$ protoc --go_out=plugins=grpc:./ *.proto
+$ go run main.go
+```
+
+
+###配置说明
+```
+[system]
+http_port=8080                      #http服务端口
+rpc_port=8081                       #rpc服务端口
+run_mode=debug                      #debug、test、release
+worker_id=0                         #snowflake worker id，go项目：0-899，php项目：900-1023
+param_secret=ceqcyxnprtj1t          #参数一致性秘钥
+
+[log]
+path=/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example/example.log
+level=debug                         #debug、info、error
+
+[db]
+driver_name=mysql
+host=127.0.0.1
+port=3306
+user=root
+password=root
+database=test
+max_open=20
+max_idle=10
+
+[redis]
+host=10.10.20.151
+port=6379
+password=123456
+db=0
+
+[rpc_client]
+example_svr=localhost:8083          #rpc服务器地址
 ```

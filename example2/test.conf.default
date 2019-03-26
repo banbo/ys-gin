@@ -1,37 +1,10 @@
 [system]
-# http端口
 http_port=8085
-
-#debug、test、release
 run_mode=debug
-
-#snowflake worker id，go项目：0-899，php项目：900-1023
-worker_id=0
-
-#参数一致性秘钥
-param_secret=ceqcyxnprtj1tzch
 
 [log]
 path=/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example/example.log
-
-#debug、info、error
 level=debug
-
-[db]
-driver_name=mysql
-host=10.10.20.151
-port=3306
-user=root
-password=goodjob
-database=imbix
-max_open=20
-max_idle=10
-
-[redis]
-host=10.10.20.151
-port=6379
-password=123456
-db=0
 
 [rpc_client]
 example_svr=localhost:8083
