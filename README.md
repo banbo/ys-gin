@@ -23,24 +23,6 @@ github.com
 ```
 
 
-### 运行例子
-```
-$ go get -u github.com/golang/protobuf/protoc-gen-go        #安装protoc-gen-go插件
-
-#example提供http服务+grpc服务+websocket服务(使用ws-test-client.html测试)
-$ cd example/proto
-$ cp test.conf.default test.conf                            #按需修改配置
-$ protoc --go_out=plugins=grpc:./ *.proto
-$ go run main.go
-
-#example2编写grpc客户端调用example提供的grpc服务
-$ cd example2/proto
-$ cp test.conf.default test.conf                            #按需修改配置
-$ protoc --go_out=plugins=grpc:./ *.proto
-$ go run main.go
-```
-
-
 ### 配置说明
 ```
 [system]
@@ -72,4 +54,22 @@ db=0
 
 [rpc_client]
 example_svr=localhost:8083          #rpc服务器地址
+```
+
+
+### 运行例子
+```
+$ go get -u github.com/golang/protobuf/protoc-gen-go        #安装protoc-gen-go插件
+
+#example提供http服务+grpc服务+websocket服务(使用ws-test-client.html测试)
+$ cd example/proto
+$ cp test.conf.default test.conf                            #按需修改配置
+$ protoc --go_out=plugins=grpc:./ *.proto
+$ go run main.go
+
+#example2编写grpc客户端调用example提供的grpc服务
+$ cd example2/proto
+$ cp test.conf.default test.conf                            #按需修改配置
+$ protoc --go_out=plugins=grpc:./ *.proto
+$ go run main.go
 ```
