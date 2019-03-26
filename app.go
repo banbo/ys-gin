@@ -42,12 +42,18 @@ func NewApp(configFile string) *App {
 	//设置gin运行模式
 	gin.SetMode(conf.Configer.ApiConf.RunMode)
 
-	switch conf.Configer.DbConf.DriverName {
+	//初始化数据库连接池
+	_, err := model.NewEngine()
+	if err != nil {
+		panic(fmt.Sprintf("初始化连接池出错，%v", err))
+	}
+
+	/*switch conf.Configer.DbConf.DriverName {
 	case "mysql":
 		model.NewMysqlOrm()
 	case "postgres":
 		model.NewPostgresOrm()
-	}
+	}*/
 
 	app := &App{}
 

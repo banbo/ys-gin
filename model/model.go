@@ -4,6 +4,11 @@ import (
 	"math"
 )
 
+type ModelInterface interface {
+	DatabaseAlias() string
+	TableName() string
+}
+
 type Model struct {
 }
 

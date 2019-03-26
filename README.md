@@ -31,12 +31,13 @@ rpc_port=8081                       #rpc服务端口
 run_mode=debug                      #debug、test、release
 worker_id=0                         #机器id，用于生成SnowflakeID，go项目：0-899，php项目：900-1023
 param_secret=ceqcyxnprtj1t          #参数一致性秘钥
+dbs=mysql,sqlite3                   #多数据库实例，具体配置见下db-mysql、db-sqlite3
 
 [log]
 path=/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example/example.log
 level=debug                         #debug、info、error
 
-[db]
+[db-mysql]
 driver_name=mysql
 host=127.0.0.1
 port=3306
@@ -45,6 +46,10 @@ password=root
 database=test
 max_open=20                         #最大连接数
 max_idle=10                         #最大空闲连接数
+
+[db-sqlite3]
+driver_name=sqlite3
+database=./db/main
 
 [redis]
 host=10.10.20.151
