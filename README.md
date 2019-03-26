@@ -61,8 +61,8 @@ port=3306
 user=root
 password=root
 database=test
-max_open=20
-max_idle=10
+max_open=20                         #最大连接数
+max_idle=10                         #最大空闲连接数
 
 [redis]
 host=10.10.20.151
