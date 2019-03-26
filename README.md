@@ -1,8 +1,8 @@
-  由于gin框架非常轻量，没有提供日常web开发常用的组件，所以本人又做了一层封装，方便基于gin的web程序开发。主要封装了conf、log、orm、redis、grpc、error、controller、websocket等组件。
-  conf基于beego/conf、log基于beego/log、orm基于xorm、redis基于go-redis等，使用了非常成熟好用的组件进行封装，就没有重复造轮子了(貌似暂时也没这个实力^_^)。
-  middleware目录里主要封装了一些常用的中间件，如跨域、参数一致性验证。
-  test目录里主要封装了模拟浏览器单元测试，example/controllers/test/testController_test.go有使用。
-  error主要封装了自定义error接口，用于区分业务报错和系统报错；controller主要封装了获取http参数方法、返回数据方法；websocket主要封装了返回数据方法。其余很多思路也都是参考各位大佬，不再一一列举，非常感谢大家的启发。
+- 由于gin框架非常轻量，没有提供日常web开发常用的组件，所以本人又做了一层封装，方便基于gin的web程序开发。主要封装了conf、log、orm、redis、grpc、error、controller、websocket等组件。
+- conf基于beego/conf、log基于beego/log、orm基于xorm、redis基于go-redis等，使用了非常成熟好用的组件进行封装，就没有重复造轮子了(貌似暂时也没这个实力^_^)。
+- middleware目录里主要封装了一些常用的中间件，如跨域、参数一致性验证。
+- test目录里主要封装了模拟浏览器单元测试，example/controllers/test/testController_test.go有使用。
+- error主要封装了自定义error接口，用于区分业务报错和系统报错；controller主要封装了获取http参数方法、返回数据方法；websocket主要封装了返回数据方法。其余很多思路也都是参考各位大佬，不再一一列举，非常感谢大家的启发。
 
 ### 运行例子
 ```
