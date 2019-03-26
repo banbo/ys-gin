@@ -10,7 +10,7 @@ github.com
     - cache                         封装了缓存相关类，其中的redis基于go-redis
     - conf                          基于beego/conf
     - constant                      主要定义了一些公用的常量
-    - controller/controller         封装了获取http参数方法、返回http数据(json)的方法
+    - controller/controller         封装了获取http参数的方法(不习惯gin的那套方法)、返回http数据(json)的方法
     - controller/wsController       封装了返回websocket数据的方法
     - errors                        封装了自定义error接口，用于区分业务报错和系统报错
     - id                            封装了分布式的snowflak id
