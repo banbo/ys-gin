@@ -1,6 +1,6 @@
-由于gin框架非常轻量，没有提供日常web开发常用的组件，所以本人又做了一层封装，方便基于gin的web程序开发。主要封装了conf、log、orm、redis、controller、grpc、error、websocket等组件。
-conf基于beego/conf、log基于beego/log、orm基于xorm等，使用了非常成熟好用的组件进行封装，就没有重复造轮子了(貌似暂时也没这个实力)。
-很多思路都是参考各位大佬，非常感谢。
+由于gin框架非常轻量，没有提供日常web开发常用的组件，所以本人又做了一层封装，方便基于gin的web程序开发。主要封装了conf、log、orm、redis、grpc、error、controller、websocket等组件。
+conf基于beego/conf、log基于beego/log、orm基于xorm等，使用了非常成熟好用的组件进行封装，就没有重复造轮子了(貌似暂时也没这个实力^_^)。
+其余地方也有很多思路都是参考各位大佬，不再一一列举，非常感谢大家的启发。
 
 ### 运行例子
 ```
