@@ -47,7 +47,7 @@ $ go run main.go
 http_port=8080                      #http服务端口
 rpc_port=8081                       #rpc服务端口
 run_mode=debug                      #debug、test、release
-worker_id=0                         #snowflake worker id，如，go项目：0-899，php项目：900-1023
+worker_id=0                         #机器id，用于生成SnowflakeID，go项目：0-899，php项目：900-1023
 param_secret=ceqcyxnprtj1t          #参数一致性秘钥
 
 [log]
