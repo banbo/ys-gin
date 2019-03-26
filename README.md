@@ -19,7 +19,7 @@ github.com
     - middleware                    封装了一些常用的中间件，如跨域、参数一致性验证等中间件
     - model                         封装了orm和分页方法，orm是基于xorm
     - rpc                           封装了响应错误数据的方法
-    - test                          封装了模拟浏览器请求，方便对http接口的单元测试，可参考example/controllers/test/testController_test.go
+    - test                          封装了httptest，方便对http接口的单元测试，可参考example/controllers/test/testController_test.go
     - utils                         封装了常用的工具类、工具函数
 ```
 
