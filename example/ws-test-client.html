@@ -1,0 +1,42 @@
+<html>
+<head>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        var ws = new WebSocket("ws://127.0.0.1:8082/ws_test/123");
+
+        ws.onopen = function(evt) {
+            console.log("Connection open ...");
+
+            $("#btn-msg").click(function() {
+                ws.send('{"type":2,"pair_id":102709804715212894,"kline_type":"5min"}');
+            });
+
+            $("#btn-close").click(function() {
+                ws.close();
+            });
+        };
+
+        ws.onmessage = function(evt) {
+            console.log("Received Message: " + evt.data);
+        };
+
+        ws.onclose = function(evt) {
+            console.log("Connection closed.");
+        };
+
+        function sleep(numberMillis) {
+            var now = new Date();
+            var exitTime = now.getTime() + numberMillis;
+            while (true) {
+                now = new Date();
+                if (now.getTime() > exitTime)
+                    return;
+            }
+        }
+    </script>
+</head>
+<body>
+<button id="btn-msg">发送消息</button>
+<button id="btn-close">关闭</button>
+</body>
+</html>

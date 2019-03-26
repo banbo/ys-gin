@@ -13,4 +13,5 @@ func Init(engine *gin.Engine) {
 	engine.Use(middleware.Cors())
 
 	new(controllers.TestController).Router(engine)
+	new(controllers.WsTestController).Router(engine)
 }
