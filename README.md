@@ -1,6 +1,6 @@
 - 由于gin框架非常轻量，没有提供日常web开发常用的组件，所以本人又做了一层封装，方便基于gin的web程序开发。主要封装了conf、log、orm、redis、grpc、error、controller、websocket等组件
 - controller/controller主要封装了获取http参数方法、返回http数据(json)的方法
-- controller/wsController主要封装了websocket返回数据方法
+- controller/wsController主要封装了返回websocket数据的方法
 - errors目录里主要封装了自定义error接口，用于区分业务报错和系统报错
 - middleware目录里主要封装了一些常用的中间件，如跨域、参数一致性验证等中间件
 - test目录里主要封装了模拟浏览器请求，方便对http接口的单元测试，可参考example/controllers/test/testController_test.go
