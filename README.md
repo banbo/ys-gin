@@ -10,15 +10,16 @@ github.com
     - cache                         封装了缓存相关类，其中的redis基于go-redis
     - conf                          基于beego/conf
     - constant                      主要定义了一些公用的常量
-    - controller/controller         封装了获取http参数的方法(不习惯gin的那套方法)、返回http数据(json)的方法
-    - controller/wsController       封装了返回websocket数据的方法
+    - controller
+      - controller.go               封装了获取http参数的方法(不习惯gin的那套方法)、返回http数据(json)的方法
+      - wsController.go             封装了返回websocket数据的方法
     - errors                        封装了自定义error接口，用于区分业务报错和系统报错
     - id                            封装了分布式的snowflak id
     - log                           基于beego/log
     - middleware                    封装了一些常用的中间件，如跨域、参数一致性验证等中间件
     - model                         封装了orm和分页方法，orm是基于xorm
     - rpc                           封装了响应错误数据的方法
-    - test                          封装了模拟浏览器请求，方便对http接口的单元测试，可参考example/controllers/test/testController_test.go
+    - test                          封装了httptest，方便对http接口的单元测试，可参考example/controllers/test/testController_test.go
     - utils                         封装了常用的工具类、工具函数
 ```
 
