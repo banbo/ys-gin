@@ -64,6 +64,7 @@ example_svr=localhost:8083          #rpc服务器地址
 
 
 ### 运行例子
+手动创建mysql数据库test，再使用example/test.sql创建测试表
 ```
 $ go get -u github.com/golang/protobuf/protoc-gen-go        #安装protoc-gen-go插件
 
