@@ -32,8 +32,8 @@ func Test_Test_Add(t *testing.T) {
 	}
 
 	// 记下新增的生成的id，供下面的测试用例使用
-	data, _ := resp.Data.(map[string]interface{})
-	lastUID = data["uid"].(string)
+	uid, _ := resp.Data.(string)
+	lastUID = uid
 }
 
 func Test_Test_List(t *testing.T) {

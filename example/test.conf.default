@@ -4,14 +4,14 @@ rpc_port=8083
 run_mode=debug
 worker_id=0
 param_secret=ceqcyxnprtj1tzch
-dbs=mysql
+dbs=test_db
 
 [log]
 path=/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example/example.log
 #debug、info、error
 level=debug
 
-[db-mysql]
+[db-test_db]
 driver_name=mysql
 host=127.0.0.1
 port=3306

@@ -3,7 +3,7 @@ package models
 import (
 	"strconv"
 
-	"github.com/banbo/ys-gin/example/constant"
+	"github.com/banbo/ys-gin/example/constants"
 
 	"github.com/banbo/ys-gin/errors"
 	"github.com/banbo/ys-gin/id"
@@ -20,7 +20,7 @@ type TestModel struct {
 
 //库别名
 func (TestModel) DatabaseAlias() string {
-	return "mysql"
+	return "test_db"
 }
 
 //表名
@@ -146,7 +146,7 @@ func (t *TestModel) Update(uid string, params map[string]interface{}) error {
 	}
 	if !has {
 		log.Logger.Error("用户不存在或已删除，uid：", uid)
-		return errors.NewNormal(constant.RESPONSE_CODE_NO_USER, "用户不存在或已删除")
+		return errors.NewNormal(constants.RESPONSE_CODE_NO_USER, "用户不存在或已删除")
 	}
 
 	//设置更新字段

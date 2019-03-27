@@ -2,13 +2,15 @@ package model
 
 import (
 	"fmt"
+
 	"github.com/banbo/ys-gin/conf"
 	"github.com/banbo/ys-gin/errors"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
-	//_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var Engineer *engine
@@ -24,13 +26,14 @@ func NewEngine() (*engine, error) {
 
 	var err error
 	var dataSourceName string
+	var xormEngine *xorm.Engine
 	for _, db := range conf.Configer.DbConf {
 		dataSourceName, err = getConnect(db)
 		if err != nil {
 			break
 		}
 
-		xormEngine, err := xorm.NewEngine(db.DriverName, dataSourceName)
+		xormEngine, err = xorm.NewEngine(db.DriverName, dataSourceName)
 		if err != nil {
 			break
 		}

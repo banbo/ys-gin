@@ -24,7 +24,10 @@ func NewConfiger(filename string) {
 		panic("读取配置文件出错")
 	}
 
+	//读取配置
 	Configer.load()
+
+	Configer.loadDbs()
 }
 
 //加载配置到内存
@@ -67,8 +70,6 @@ func (c *config) load() {
 	if c.ApiConf.LogLevel != "debug" && c.ApiConf.LogLevel != "info" && c.ApiConf.LogLevel != "error" {
 		panic("log_level配置错误")
 	}
-
-	c.loadDbs()
 }
 
 //读取数据库配置
@@ -77,25 +78,30 @@ func (c *config) loadDbs() {
 	dbs := strings.Split(c.ApiConf.Dbs, ",")
 	c.DbConf = make([]DbConfig, 0, len(dbs))
 	if len(dbs) > 0 && len(dbs[0]) > 0 {
-		for i := 0; i < len(dbs); i++ {
-			maxOpen, err := c.BeeConfiger.Int("db-" + dbs[i] + "::max_open")
-			if err != nil {
-				panic("读取db::max_open配置出错")
-			}
+		for _, db := range dbs {
+			//获取最大连接数，如果配置了
+			var maxOpen, maxIdle int
+			var err error
+			if c.BeeConfiger.String("db-"+db+"::max_open") != "" {
+				maxOpen, err = c.BeeConfiger.Int("db-" + db + "::max_open")
+				if err != nil {
+					panic("读取db::max_open配置出错")
+				}
 
-			maxIdle, err := c.BeeConfiger.Int("db-" + dbs[i] + "::max_idle")
-			if err != nil {
-				panic("读取db::max_idle配置出错")
+				maxIdle, err = c.BeeConfiger.Int("db-" + db + "::max_idle")
+				if err != nil {
+					panic("读取db::max_idle配置出错")
+				}
 			}
 
 			dbConfig := DbConfig{
-				Alias:      dbs[i],
-				DriverName: c.BeeConfiger.String("db-" + dbs[i] + "::driver_name"),
-				Database:   c.BeeConfiger.String("db-" + dbs[i] + "::database"),
-				Host:       c.BeeConfiger.String("db-" + dbs[i] + "::server"),
-				Port:       c.BeeConfiger.String("db-" + dbs[i] + "::port"),
-				User:       c.BeeConfiger.String("db-" + dbs[i] + "::user"),
-				Password:   c.BeeConfiger.String("db-" + dbs[i] + "::password"),
+				Alias:      db,
+				DriverName: c.BeeConfiger.String("db-" + db + "::driver_name"),
+				Database:   c.BeeConfiger.String("db-" + db + "::database"),
+				Host:       c.BeeConfiger.String("db-" + db + "::server"),
+				Port:       c.BeeConfiger.String("db-" + db + "::port"),
+				User:       c.BeeConfiger.String("db-" + db + "::user"),
+				Password:   c.BeeConfiger.String("db-" + db + "::password"),
 				MaxOpen:    maxOpen,
 				MaxIdle:    maxIdle,
 			}
