@@ -20,7 +20,7 @@ github.com
     - model                         封装了orm和分页方法，orm是基于xorm
     - rpc                           封装了响应错误数据的方法
     - test                          封装了httptest，方便对http接口的单元测试，可参考example/controllers/test/testController_test.go
-    - utils                         封装了常用的工具类、工具函数
+    - util                          封装了常用的工具类、工具函数
 ```
 
 
