@@ -11,7 +11,7 @@ import (
 	"github.com/banbo/ys-gin/example/constants"
 )
 
-type TestModel struct {
+type UserModel struct {
 	model.Model `xorm:"-"`
 	Uid         string `xorm:"uid pk" json:"uid"`
 	Name        string `xorm:"name" json:"name"`
@@ -19,18 +19,18 @@ type TestModel struct {
 }
 
 //库别名
-func (TestModel) DatabaseAlias() string {
-	return "test_db"
+func (UserModel) DatabaseAlias() string {
+	return "default"
 }
 
 //表名
-func (TestModel) TableName() string {
-	return "test"
+func (UserModel) TableName() string {
+	return "user"
 }
 
 //列表，分页
-func (t *TestModel) List(pageIndex int, pageSize int, filter map[string]interface{}, orderBy string) (*model.ModelList, []*TestModel, error) {
-	engine, err := model.Engineer.Get(t)
+func (u *UserModel) List(pageIndex int, pageSize int, filter map[string]interface{}, orderBy string) (*model.ModelList, []*UserModel, error) {
+	engine, err := model.Engineer.Get(u)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -51,14 +51,14 @@ func (t *TestModel) List(pageIndex int, pageSize int, filter map[string]interfac
 
 	//获取分页
 	sessionCp := session.Clone()
-	total, err := sessionCp.Count(new(TestModel))
+	total, err := sessionCp.Count(new(UserModel))
 	if err != nil {
 		return nil, nil, errors.NewSys(err)
 	}
-	limit, offset, modelList := t.Paging(pageIndex, pageSize, int(total))
+	limit, offset, modelList := u.Paging(pageIndex, pageSize, int(total))
 
 	//获取列表
-	var list []*TestModel
+	var list []*UserModel
 	err = session.Limit(limit, offset).Find(&list)
 	if err != nil {
 		return nil, nil, errors.NewSys(err)
@@ -68,8 +68,8 @@ func (t *TestModel) List(pageIndex int, pageSize int, filter map[string]interfac
 }
 
 //列表，不分页
-func (t *TestModel) ListAll(filter map[string]interface{}, orderBy string) (*model.ModelList, []*TestModel, error) {
-	engine, err := model.Engineer.Get(t)
+func (u *UserModel) ListAll(filter map[string]interface{}, orderBy string) (*model.ModelList, []*UserModel, error) {
+	engine, err := model.Engineer.Get(u)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -88,23 +88,23 @@ func (t *TestModel) ListAll(filter map[string]interface{}, orderBy string) (*mod
 		session.OrderBy("uid DESC")
 	}
 
-	var list []*TestModel
+	var list []*UserModel
 	err = session.Find(&list)
 	if err != nil {
 		return nil, nil, errors.NewSys(err)
 	}
 
-	return t.NoPaging(len(list), list), list, nil
+	return u.NoPaging(len(list), list), list, nil
 }
 
 //获取
-func (t *TestModel) Get(uid string) (bool, *TestModel, error) {
-	engine, err := model.Engineer.Get(t)
+func (u *UserModel) Get(uid string) (bool, *UserModel, error) {
+	engine, err := model.Engineer.Get(u)
 	if err != nil {
 		return false, nil, err
 	}
 
-	testModel := new(TestModel)
+	testModel := new(UserModel)
 
 	has, err := engine.Where("uid=?", uid).Get(testModel)
 	if err != nil {
@@ -115,8 +115,8 @@ func (t *TestModel) Get(uid string) (bool, *TestModel, error) {
 }
 
 //新增
-func (t *TestModel) Add(testModel *TestModel) (string, error) {
-	engine, err := model.Engineer.Get(t)
+func (u *UserModel) Add(testModel *UserModel) (string, error) {
+	engine, err := model.Engineer.Get(u)
 	if err != nil {
 		return "", err
 	}
@@ -133,14 +133,14 @@ func (t *TestModel) Add(testModel *TestModel) (string, error) {
 }
 
 //更新
-func (t *TestModel) Update(uid string, params map[string]interface{}) error {
-	engine, err := model.Engineer.Get(t)
+func (u *UserModel) Update(uid string, params map[string]interface{}) error {
+	engine, err := model.Engineer.Get(u)
 	if err != nil {
 		return err
 	}
 
 	//判断是否存在
-	has, _, err := t.Get(uid)
+	has, _, err := u.Get(uid)
 	if err != nil {
 		return err
 	}
@@ -158,7 +158,7 @@ func (t *TestModel) Update(uid string, params map[string]interface{}) error {
 		data["age"] = v
 	}
 
-	_, err = engine.Table(t).ID(uid).Update(data)
+	_, err = engine.Table(u).ID(uid).Update(data)
 	if err != nil {
 		return errors.NewSys(err)
 	}
@@ -167,13 +167,13 @@ func (t *TestModel) Update(uid string, params map[string]interface{}) error {
 }
 
 //删除
-func (t *TestModel) Delete(uid string) error {
-	engine, err := model.Engineer.Get(t)
+func (u *UserModel) Delete(uid string) error {
+	engine, err := model.Engineer.Get(u)
 	if err != nil {
 		return err
 	}
 
-	_, err = engine.ID(uid).Delete(t)
+	_, err = engine.ID(uid).Delete(u)
 	if err != nil {
 		return errors.NewSys(err)
 	}

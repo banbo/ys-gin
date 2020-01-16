@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	lastUID string
+	MockUID string = "270200547871555584"
 )
 
 // 登录cookie
@@ -20,7 +20,7 @@ var LOGIN_COOKIE = &http.Cookie{
 }
 
 func getAPIClient() *test.APIClient {
-	app := ysGin.NewApp("../../test.conf")
+	app := ysGin.NewApp("../../example.conf")
 	router.Init(app.GinEngine)
 
 	return test.NewAPIClient(app.GinEngine)

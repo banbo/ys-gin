@@ -7,7 +7,7 @@ import (
 	"github.com/banbo/ys-gin/constant"
 )
 
-func Test_Test_Add(t *testing.T) {
+func Test_User_Add(t *testing.T) {
 	c := getAPIClient()
 
 	// 请求参数
@@ -21,7 +21,7 @@ func Test_Test_Add(t *testing.T) {
 	}
 
 	// 发送
-	resp, err := c.Post("test/add", cookies)
+	resp, err := c.Post("user/add", cookies)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -33,10 +33,10 @@ func Test_Test_Add(t *testing.T) {
 
 	// 记下新增的生成的id，供下面的测试用例使用
 	uid, _ := resp.Data.(string)
-	lastUID = uid
+	MockUID = uid
 }
 
-func Test_Test_List(t *testing.T) {
+func Test_User_List(t *testing.T) {
 	c := getAPIClient()
 
 	// 请求参数
@@ -50,7 +50,7 @@ func Test_Test_List(t *testing.T) {
 	}
 
 	// 发送
-	resp, err := c.Get("test/list", cookies)
+	resp, err := c.Get("user/list", cookies)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -63,11 +63,11 @@ func Test_Test_List(t *testing.T) {
 	t.Log(resp.Data)
 }
 
-func Test_Test_Get(t *testing.T) {
+func Test_User_Get(t *testing.T) {
 	c := getAPIClient()
 
 	// 请求参数
-	c.AddParam("uid", lastUID)
+	c.AddParam("uid", MockUID)
 
 	// cookie
 	cookies := []*http.Cookie{
@@ -75,7 +75,7 @@ func Test_Test_Get(t *testing.T) {
 	}
 
 	// 发送
-	resp, err := c.Get("test/get", cookies)
+	resp, err := c.Get("user/get", cookies)
 	if err != nil {
 		t.Fatal(err)
 	}

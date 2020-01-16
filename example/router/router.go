@@ -12,6 +12,6 @@ func Init(engine *gin.Engine) {
 	middleware.SetCorsOrigin([]string{"http://127.0.0.1"})
 	engine.Use(middleware.Cors())
 
-	new(controllers.TestController).Router(engine)
+	new(controllers.UserController).Router(engine)
 	new(controllers.WsTestController).Router(engine)
 }
