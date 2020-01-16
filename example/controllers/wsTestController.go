@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"time"
+
 	"github.com/banbo/ys-gin/controller"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/olahol/melody.v1"
-	"time"
 )
 
 type WsTestController struct {

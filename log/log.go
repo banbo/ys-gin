@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/banbo/ys-gin/conf"
-
 	"github.com/astaxie/beego/logs"
+
+	"github.com/banbo/ys-gin/conf"
 )
 
 var Logger *log

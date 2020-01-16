@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/olahol/melody.v1"
+
 	"github.com/banbo/ys-gin/constant"
 	"github.com/banbo/ys-gin/errors"
 )

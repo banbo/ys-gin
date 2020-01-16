@@ -8,10 +8,10 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/banbo/ys-gin/conf"
 	"github.com/banbo/ys-gin/controller"
-
-	"github.com/gin-gonic/gin"
 )
 
 // 验证参数一致

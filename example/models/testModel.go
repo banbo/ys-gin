@@ -3,12 +3,12 @@ package models
 import (
 	"strconv"
 
-	"github.com/banbo/ys-gin/example/constants"
-
 	"github.com/banbo/ys-gin/errors"
 	"github.com/banbo/ys-gin/id"
 	"github.com/banbo/ys-gin/log"
 	"github.com/banbo/ys-gin/model"
+
+	"github.com/banbo/ys-gin/example/constants"
 )
 
 type TestModel struct {
@@ -136,7 +136,7 @@ func (t *TestModel) Add(testModel *TestModel) (string, error) {
 func (t *TestModel) Update(uid string, params map[string]interface{}) error {
 	engine, err := model.Engineer.Get(t)
 	if err != nil {
-		return  err
+		return err
 	}
 
 	//判断是否存在
@@ -170,7 +170,7 @@ func (t *TestModel) Update(uid string, params map[string]interface{}) error {
 func (t *TestModel) Delete(uid string) error {
 	engine, err := model.Engineer.Get(t)
 	if err != nil {
-		return  err
+		return err
 	}
 
 	_, err = engine.ID(uid).Delete(t)

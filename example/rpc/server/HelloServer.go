@@ -1,11 +1,11 @@
 package server
 
 import (
-	"github.com/banbo/ys-gin/example/proto"
+	"context"
 
 	"github.com/banbo/ys-gin/rpc"
 
-	"golang.org/x/net/context"
+	"github.com/banbo/ys-gin/example/proto"
 )
 
 type HelloServer struct {

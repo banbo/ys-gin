@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"github.com/banbo/ys-gin/example/models"
-
 	"github.com/banbo/ys-gin/controller"
 	"github.com/banbo/ys-gin/middleware"
 	"github.com/banbo/ys-gin/model"
 	"github.com/gin-gonic/gin"
+
+	"github.com/banbo/ys-gin/example/models"
 )
 
 type TestController struct {

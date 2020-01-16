@@ -1,9 +1,10 @@
 package conf
 
 import (
+	"strings"
+
 	beeConfig "github.com/astaxie/beego/config"
 	"github.com/gin-gonic/gin"
-	"strings"
 )
 
 var Configer *config

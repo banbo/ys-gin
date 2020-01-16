@@ -3,7 +3,7 @@ http_port=8085
 run_mode=debug
 
 [log]
-path=/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example/example.log
+path=/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example2/example.log
 level=debug
 
 [rpc_client]

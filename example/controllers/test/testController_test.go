@@ -1,9 +1,9 @@
 package test
 
 import (
+	"net/http"
 	"testing"
 
-	"net/http"
 	"github.com/banbo/ys-gin/constant"
 )
 

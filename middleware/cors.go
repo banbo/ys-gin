@@ -3,8 +3,9 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/banbo/ys-gin/controller"
 	"github.com/gin-gonic/gin"
+
+	"github.com/banbo/ys-gin/controller"
 )
 
 var allowOrigins []string

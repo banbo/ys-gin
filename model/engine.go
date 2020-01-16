@@ -3,14 +3,14 @@ package model
 import (
 	"fmt"
 
-	"github.com/banbo/ys-gin/conf"
-	"github.com/banbo/ys-gin/errors"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
+
+	"github.com/banbo/ys-gin/conf"
+	"github.com/banbo/ys-gin/errors"
 )
 
 var Engineer *engine

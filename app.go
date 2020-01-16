@@ -10,14 +10,14 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
+
 	"github.com/banbo/ys-gin/cache"
 	"github.com/banbo/ys-gin/conf"
 	"github.com/banbo/ys-gin/id"
 	"github.com/banbo/ys-gin/log"
 	"github.com/banbo/ys-gin/model"
-
-	"github.com/gin-gonic/gin"
-	"google.golang.org/grpc"
 )
 
 type App struct {

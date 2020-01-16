@@ -1,10 +1,10 @@
 package router
 
 import (
-	"github.com/banbo/ys-gin/example2/controllers"
 	"github.com/banbo/ys-gin/middleware"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/banbo/ys-gin/example2/controllers"
 )
 
 func Init(engine *gin.Engine) {

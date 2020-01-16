@@ -8,10 +8,10 @@ import (
 	"os"
 	"path"
 
-	"github.com/banbo/ys-gin/errors"
-
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
+
+	"github.com/banbo/ys-gin/errors"
 )
 
 //ssh连接

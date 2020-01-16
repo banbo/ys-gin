@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"testing"
+
 	"github.com/banbo/ys-gin/example/proto"
 )
 

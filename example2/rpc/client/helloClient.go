@@ -3,9 +3,9 @@ package client
 import (
 	"context"
 
-	"github.com/banbo/ys-gin/example2/proto"
-
 	"github.com/banbo/ys-gin/errors"
+
+	"github.com/banbo/ys-gin/example2/proto"
 )
 
 var HelloClient helloClient

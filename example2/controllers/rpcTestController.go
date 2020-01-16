@@ -1,14 +1,13 @@
 package controllers
 
 import (
-	"github.com/banbo/ys-gin/example2/proto"
-	"github.com/banbo/ys-gin/example2/rpc/client"
-
 	"github.com/banbo/ys-gin/constant"
 	"github.com/banbo/ys-gin/controller"
-
 	"github.com/banbo/ys-gin/errors"
 	"github.com/gin-gonic/gin"
+
+	"github.com/banbo/ys-gin/example2/proto"
+	"github.com/banbo/ys-gin/example2/rpc/client"
 )
 
 type RpcTestController struct {

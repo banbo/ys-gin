@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/banbo/ys-gin/constant"
 	"github.com/banbo/ys-gin/errors"
-
-	"github.com/gin-gonic/gin"
 )
 
 const (
