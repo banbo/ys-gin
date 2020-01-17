@@ -48,6 +48,12 @@ database=test
 max_open=20                         #最大连接数
 max_idle=10                         #最大空闲连接数
 
+[db-remote-slave-1]                 #remote slave配置
+host=127.0.0.1
+port=3307
+user=root
+password=root
+
 [db-local]
 driver_name=sqlite3
 database=./db/main

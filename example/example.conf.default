@@ -22,7 +22,7 @@ charset=utf8
 max_open=20
 max_idle=10
 
-[db-example-slave-0]
+[db-example-slave-1]
 host=127.0.0.1
 port=3306
 user=root

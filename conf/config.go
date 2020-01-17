@@ -112,7 +112,7 @@ func (c *config) loadDbs() {
 			}
 
 			//slaves
-			for i := 0; i < 10; i++ {
+			for i := 1; i <= 10; i++ {
 				prefixSlave := prefix + "-slave-" + fmt.Sprint(i)
 				slaveHost := c.BeeConfiger.String(prefixSlave + "::host")
 				if slaveHost == "" {
