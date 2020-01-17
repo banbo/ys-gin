@@ -74,13 +74,15 @@ $ cp example.conf.default example.conf                            #按需修改�
 $ protoc --go_out=plugins=grpc:./ *.proto
 $ go run main.go
 $ curl http://127.0.0.1:8082/user/list?is_page=true&page_index=1&page_size=10
-{"status":"success","code":0,"msg":"成功","data":{"is_page":true,"page_index":1,"page_size":10,"page_count":0,"total":0,"items":null}}
+{"status":"success","code":0,"msg":"成功","data":{"is_page":true,"page_index":1,"page_size":10,"page_count":1,"total":1,"items":[{"uid":"270200547871555584","name":"test1","age":18}]}}
 
 #example2编写grpc客户端调用example提供的grpc服务
 $ cd example2/proto
 $ cp example2.conf.default example2.conf                            #按需修改配置
 $ protoc --go_out=plugins=grpc:./ *.proto
 $ go run main.go
+$ curl http://127.0.0.1:8085/rpc_test/hello?greeting=jon
+{"status":"success","code":0,"msg":"成功","data":"Hello, jon"}
 ```
 
 

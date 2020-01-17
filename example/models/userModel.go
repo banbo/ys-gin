@@ -20,7 +20,7 @@ type UserModel struct {
 
 //库别名
 func (UserModel) DatabaseAlias() string {
-	return "default"
+	return "example"
 }
 
 //表名
