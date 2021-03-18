@@ -95,9 +95,6 @@ func (u *UserController) Get(ctx *gin.Context) {
 		return
 	}
 
-	//设置返回值
-	u.Put(ctx, "user", testModel)
-
 	u.RespOK(ctx, testModel)
 	return
 }
