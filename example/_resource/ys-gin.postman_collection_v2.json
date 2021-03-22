@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "140f4092-3984-4834-bce8-4bcbba19bd18",
+		"name": "ys-gin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http",
+			"item": [
+				{
+					"name": "用户列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8082/user/list?is_page=true&page_index=1&page_size=10&sign=eefb03638f4588022ee63d6cc0798239567a0f9b",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8082",
+							"path": [
+								"user",
+								"list"
+							],
+							"query": [
+								{
+									"key": "is_page",
+									"value": "true"
+								},
+								{
+									"key": "page_index",
+									"value": "1"
+								},
+								{
+									"key": "page_size",
+									"value": "10"
+								},
+								{
+									"key": "sign",
+									"value": "eefb03638f4588022ee63d6cc0798239567a0f9b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8082/user/get?uid=270200547871555584",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8082",
+							"path": [
+								"user",
+								"get"
+							],
+							"query": [
+								{
+									"key": "uid",
+									"value": "270200547871555584"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "新增用户",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "test1",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "18",
+									"type": "text"
+								},
+								{
+									"key": "sign",
+									"value": "c17ac297f6be017ecd5d933d9214908ab6424a80",
+									"type": "text"
+								},
+								{
+									"key": "timestamp",
+									"value": "1540797306",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8082/user/add"
+					},
+					"response": []
+				},
+				{
+					"name": "更新用户",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uid",
+									"value": "426277308978954240",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "test12",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "189",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8082/user/update"
+					},
+					"response": []
+				},
+				{
+					"name": "删除用户",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uid",
+									"value": "426277308978954240",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8082/user/delete"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "rpc",
+			"item": [
+				{
+					"name": "hello",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8085/rpc_test/hello?greeting=david",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8085",
+							"path": [
+								"rpc_test",
+								"hello"
+							],
+							"query": [
+								{
+									"key": "greeting",
+									"value": "david"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bye",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8085/rpc_test/bye?bye=david",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8085",
+							"path": [
+								"rpc_test",
+								"bye"
+							],
+							"query": [
+								{
+									"key": "bye",
+									"value": "david"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
