@@ -15,6 +15,7 @@ import (
 )
 
 // 验证参数一致
+// kv按key正序排列，带上secret=xxx，一起sha1加密
 func CheckParamUnanimous() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取所有参数

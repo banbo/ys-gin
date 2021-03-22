@@ -25,9 +25,16 @@ func (u *UserController) Router(e *gin.Engine) {
 	group2 := *group
 	group2.Use(middleware.CheckParamUnanimous())
 	{
-		group2.POST("/add", u.Add)
-		group2.POST("/update", u.Update)
-		group2.POST("/delete", u.Delete)
+		//group2.POST("/add", u.Add)
+		//group2.POST("/update", u.Update)
+		//group2.POST("/delete", u.Delete)
+	}
+
+	//暂时去掉验证，方便测试
+	{
+		group.POST("/add", u.Add)
+		group.POST("/update", u.Update)
+		group.POST("/delete", u.Delete)
 	}
 }
 
