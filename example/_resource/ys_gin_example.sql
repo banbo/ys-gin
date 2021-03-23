@@ -1,5 +1,5 @@
 -- create database
-CREATE DATABASE ys_gin_example;
+CREATE DATABASE IF NOT EXISTS ys_gin_example;
 
 -- create table
 CREATE TABLE `ys_gin_example`.`user` (
