@@ -32,13 +32,13 @@ type Controller struct {
 func (c *Controller) Put(ctx *gin.Context, key string, value interface{}) {
 	// lazy init
 	if ctx.Keys == nil {
-		ctx.Keys = make(map[string]interface{})
+		ctx.Keys = make(map[any]any)
 	}
 	if ctx.Keys[SAVE_DATA_KEY] == nil {
-		ctx.Keys[SAVE_DATA_KEY] = make(map[string]interface{})
+		ctx.Keys[SAVE_DATA_KEY] = make(map[any]any)
 	}
 
-	ctx.Keys[SAVE_DATA_KEY].(map[string]interface{})[key] = value
+	ctx.Keys[SAVE_DATA_KEY].(map[any]any)[key] = value
 }
 
 // 正确的响应

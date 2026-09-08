@@ -10,6 +10,7 @@ import (
 
 type HelloServer struct {
 	rpc.Server
+	proto.UnimplementedHelloServer
 }
 
 func (h *HelloServer) SayHello(ctx context.Context, req *proto.HelloRequest) (*proto.HelloResponse, error) {
