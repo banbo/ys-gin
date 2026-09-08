@@ -1,7 +1,6 @@
 package conf
 
 import (
-	"fmt"
 	"strings"
 
 	beeConfig "github.com/astaxie/beego/config"
@@ -109,22 +108,6 @@ func (c *config) loadDbs() {
 				Charset:    c.BeeConfiger.String(prefix + "::charset"),
 				MaxOpen:    maxOpen,
 				MaxIdle:    maxIdle,
-			}
-
-			//slaves
-			for i := 1; i <= 10; i++ {
-				prefixSlave := prefix + "-slave-" + fmt.Sprint(i)
-				slaveHost := c.BeeConfiger.String(prefixSlave + "::host")
-				if slaveHost == "" {
-					break
-				}
-
-				dbConfig.Slaves = append(dbConfig.Slaves, struct {
-					Host     string
-					Port     string
-					User     string
-					Password string
-				}{Host: slaveHost, Port: c.BeeConfiger.String(prefixSlave + "::port"), User: c.BeeConfiger.String(prefixSlave + "::user"), Password: c.BeeConfiger.String(prefixSlave + "::password")})
 			}
 
 			c.DbConf = append(c.DbConf, dbConfig)

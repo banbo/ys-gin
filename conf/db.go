@@ -11,10 +11,4 @@ type DbConfig struct {
 	Charset    string
 	MaxOpen    int
 	MaxIdle    int
-	Slaves     []struct {
-		Host     string
-		Port     string
-		User     string
-		Password string
-	}
 }

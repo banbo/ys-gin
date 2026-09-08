@@ -3,6 +3,8 @@ package models
 import (
 	"strconv"
 
+	"github.com/jinzhu/gorm"
+
 	"github.com/banbo/ys-gin/errors"
 	"github.com/banbo/ys-gin/id"
 	"github.com/banbo/ys-gin/log"
@@ -12,46 +14,46 @@ import (
 )
 
 type UserModel struct {
-	model.Model `xorm:"-"`
-	Uid         string `xorm:"uid pk" json:"uid"`
-	Name        string `xorm:"name" json:"name"`
-	Age         int    `xorm:"age" json:"age"`
+	model.Model `gorm:"-"`
+	Uid         string `gorm:"column:uid;primary_key" json:"uid"`
+	Name        string `gorm:"column:name" json:"name"`
+	Age         int    `gorm:"column:age" json:"age"`
 }
 
-//库别名
+// 库别名
 func (UserModel) DatabaseAlias() string {
 	return "example"
 }
 
-//表名
+// 表名
 func (UserModel) TableName() string {
-	return "user"
+	return "users"
 }
 
-//列表，分页
+// 列表，分页
 func (u *UserModel) List(pageIndex int, pageSize int, filter map[string]interface{}, orderBy string) (*model.ModelList, []*UserModel, error) {
-	engine, err := model.Engineer.Get(u)
+	db, err := model.Engineer.Get(u)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	session := engine.Where("1=1")
+	session := db.Where("1=1")
 
 	//筛选
 	if v, ok := filter["name"]; ok {
-		session.And("name = ?", v)
+		session = session.Where("name = ?", v)
 	}
 
 	//排序
 	if orderBy != "" {
-		session.OrderBy(orderBy)
+		session = session.Order(orderBy)
 	} else {
-		session.OrderBy("uid DESC")
+		session = session.Order("uid DESC")
 	}
 
 	//获取分页
-	sessionCp := session.Clone()
-	total, err := sessionCp.Count(new(UserModel))
+	var total int64
+	err = session.Model(&UserModel{}).Count(&total).Error
 	if err != nil {
 		return nil, nil, errors.NewSys(err)
 	}
@@ -59,7 +61,7 @@ func (u *UserModel) List(pageIndex int, pageSize int, filter map[string]interfac
 
 	//获取列表
 	var list []*UserModel
-	err = session.Limit(limit, offset).Find(&list)
+	err = session.Limit(limit).Offset(offset).Find(&list).Error
 	if err != nil {
 		return nil, nil, errors.NewSys(err)
 	}
@@ -67,29 +69,29 @@ func (u *UserModel) List(pageIndex int, pageSize int, filter map[string]interfac
 	return modelList, list, nil
 }
 
-//列表，不分页
+// 列表，不分页
 func (u *UserModel) ListAll(filter map[string]interface{}, orderBy string) (*model.ModelList, []*UserModel, error) {
-	engine, err := model.Engineer.Get(u)
+	db, err := model.Engineer.Get(u)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	session := engine.Where("1=1")
+	session := db.Where("1=1")
 
 	//筛选
 	if v, ok := filter["name"]; ok {
-		session.Where("name = ?", v)
+		session = session.Where("name = ?", v)
 	}
 
 	//排序
 	if orderBy != "" {
-		session.OrderBy(orderBy)
+		session = session.Order(orderBy)
 	} else {
-		session.OrderBy("uid DESC")
+		session = session.Order("uid DESC")
 	}
 
 	var list []*UserModel
-	err = session.Find(&list)
+	err = session.Find(&list).Error
 	if err != nil {
 		return nil, nil, errors.NewSys(err)
 	}
@@ -97,26 +99,29 @@ func (u *UserModel) ListAll(filter map[string]interface{}, orderBy string) (*mod
 	return u.NoPaging(len(list), list), list, nil
 }
 
-//获取
+// 获取
 func (u *UserModel) Get(uid string) (bool, *UserModel, error) {
-	engine, err := model.Engineer.Get(u)
+	db, err := model.Engineer.Get(u)
 	if err != nil {
 		return false, nil, err
 	}
 
 	testModel := new(UserModel)
 
-	has, err := engine.Where("uid=?", uid).Get(testModel)
+	err = db.Where("uid=?", uid).First(testModel).Error
 	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return false, nil, nil
+		}
 		return false, nil, errors.NewSys(err)
 	}
 
-	return has, testModel, nil
+	return true, testModel, nil
 }
 
-//新增
+// 新增
 func (u *UserModel) Add(testModel *UserModel) (string, error) {
-	engine, err := model.Engineer.Get(u)
+	db, err := model.Engineer.Get(u)
 	if err != nil {
 		return "", err
 	}
@@ -124,7 +129,7 @@ func (u *UserModel) Add(testModel *UserModel) (string, error) {
 	//生成uid
 	testModel.Uid = strconv.FormatInt(id.IdWorker.Generate(), 10)
 
-	_, err = engine.Insert(testModel)
+	err = db.Create(testModel).Error
 	if err != nil {
 		return "", errors.NewSys(err)
 	}
@@ -132,9 +137,9 @@ func (u *UserModel) Add(testModel *UserModel) (string, error) {
 	return testModel.Uid, nil
 }
 
-//更新
+// 更新
 func (u *UserModel) Update(uid string, params map[string]interface{}) error {
-	engine, err := model.Engineer.Get(u)
+	db, err := model.Engineer.Get(u)
 	if err != nil {
 		return err
 	}
@@ -158,7 +163,7 @@ func (u *UserModel) Update(uid string, params map[string]interface{}) error {
 		data["age"] = v
 	}
 
-	_, err = engine.Table(u).ID(uid).Update(data)
+	err = db.Model(&UserModel{}).Where("uid = ?", uid).Updates(data).Error
 	if err != nil {
 		return errors.NewSys(err)
 	}
@@ -166,14 +171,14 @@ func (u *UserModel) Update(uid string, params map[string]interface{}) error {
 	return nil
 }
 
-//删除
+// 删除
 func (u *UserModel) Delete(uid string) error {
-	engine, err := model.Engineer.Get(u)
+	db, err := model.Engineer.Get(u)
 	if err != nil {
 		return err
 	}
 
-	_, err = engine.ID(uid).Delete(u)
+	err = db.Where("uid = ?", uid).Delete(&UserModel{}).Error
 	if err != nil {
 		return errors.NewSys(err)
 	}

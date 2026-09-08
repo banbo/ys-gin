@@ -9,7 +9,7 @@ import (
 
 func main() {
 	//启动服务
-	app := ysGin.NewApp("/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example/example.conf")
+	app := ysGin.NewApp("./example.conf")
 
 	//设置路由
 	router.Init(app.GinEngine)

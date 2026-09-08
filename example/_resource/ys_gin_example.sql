@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS ys_gin_example;
 
 -- create table
-CREATE TABLE `ys_gin_example`.`user` (
+CREATE TABLE `ys_gin_example`.`users` (
   `uid` varchar(30) NOT NULL,
   `name` varchar(30) NOT NULL,
   `age` int(10) NOT NULL,
@@ -10,4 +10,4 @@ CREATE TABLE `ys_gin_example`.`user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- insert test data
-INSERT INTO `ys_gin_example`.`user` VALUES ('270200547871555584', 'user001', 18);
+INSERT INTO `ys_gin_example`.`users` VALUES ('270200547871555584', 'user001', 18);
