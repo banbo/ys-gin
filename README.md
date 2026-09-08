@@ -17,7 +17,7 @@ github.com
       - id                            封装了分布式的snowflak id
       - log                           基于beego/log
       - middleware                    封装了一些常用的中间件，如跨域、参数一致性验证等中间件
-      - model                         封装了orm和分页方法，orm是基于xorm
+      - model                         封装了orm和分页方法，orm是基于gorm
       - rpc                           封装了响应错误数据的方法
       - test                          封装了httptest，方便对http接口的单元测试，可参考example/controllers/test/userController_test.go
       - util                          封装了常用的工具类、工具函数
@@ -47,12 +47,6 @@ password=root
 database=test
 max_open=20                         #最大连接数
 max_idle=10                         #最大空闲连接数
-
-[db-remote-slave-1]                 #remote slave配置
-host=127.0.0.1
-port=3307
-user=root
-password=root
 
 [db-local]
 driver_name=sqlite3
