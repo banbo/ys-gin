@@ -39,7 +39,13 @@ func NewLogger() {
 		Logger.logLevel = logs.LevelDebug
 	}
 
+	//输出到文件
 	Logger.beeLogger.SetLogger(logs.AdapterFile, fmt.Sprintf(`{"filename":"%s","level":%d,"maxlines":0,"maxsize":0,"daily":true,"maxdays":60}`, Logger.logPath, Logger.logLevel))
+
+	//debug模式同时输出到终端
+	if conf.Configer.ApiConf.RunMode == "debug" {
+		Logger.beeLogger.SetLogger(logs.AdapterConsole, fmt.Sprintf(`{"level":%d}`, Logger.logLevel))
+	}
 }
 
 func (l *log) Debug(v ...interface{}) {
@@ -56,4 +62,10 @@ func (l *log) Error(v ...interface{}) {
 
 func (l *log) generateFmtStr(n int) string {
 	return strings.Repeat("%v ", n)
+}
+
+// Write 实现 io.Writer，供 gin 等组件使用
+func (l *log) Write(p []byte) (n int, err error) {
+	l.beeLogger.Info(string(p))
+	return len(p), nil
 }

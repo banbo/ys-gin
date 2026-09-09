@@ -42,6 +42,9 @@ func NewApp(configFile string) *App {
 	//设置gin运行模式
 	gin.SetMode(conf.Configer.ApiConf.RunMode)
 
+	//gin日志集成到项目日志
+	gin.DefaultWriter = log.Logger
+
 	//初始化数据库连接池
 	_, err := model.NewEngine()
 	if err != nil {
@@ -81,11 +84,11 @@ func (app *App) Run() {
 	if app.apiSvr != nil {
 		go func() {
 			err := app.apiSvr.ListenAndServe()
-			if err != nil {
+			if err != nil && err != http.ErrServerClosed {
 				panic(fmt.Sprintf("启动http服务失败，%v", err))
 			}
 		}()
-		fmt.Println("Api Svr Listen and serve on", app.apiSvr.Addr)
+		log.Logger.Info("Api Svr Listen and serve on", app.apiSvr.Addr)
 	}
 
 	//启动rpc服务
@@ -101,7 +104,7 @@ func (app *App) Run() {
 				panic(fmt.Sprintf("启动rpc服务失败，%v", err))
 			}
 		}()
-		fmt.Println("Rpc Svr Listen and serve on", app.rpcAddr)
+		log.Logger.Info("Rpc Svr Listen and serve on", app.rpcAddr)
 	}
 
 	//监听退出
@@ -111,15 +114,23 @@ func (app *App) Run() {
 		syscall.SIGTERM,
 		syscall.SIGQUIT,
 	)
-	<-quitChan
+	sig := <-quitChan
 
 	//优雅退出
+	log.Logger.Info("收到退出信号，开始优雅退出，signal:", sig)
+
 	if app.apiSvr != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
-		app.apiSvr.Shutdown(ctx)
+		if err := app.apiSvr.Shutdown(ctx); err != nil {
+			log.Logger.Error("Http服务退出出错:", err)
+		}
 	}
 	if app.RpcSvr != nil {
 		app.RpcSvr.GracefulStop()
 	}
+
+	time.Sleep(10 * time.Second)
+
+	log.Logger.Info("服务已退出")
 }
