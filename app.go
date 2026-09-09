@@ -60,8 +60,15 @@ func NewApp(configFile string) *App {
 
 	app := &App{}
 
+	//http和rpc互斥，只能配置一个
+	hasHttp := len(conf.Configer.ApiConf.HttpPort) > 0
+	hasRpc := len(conf.Configer.ApiConf.RpcPort) > 0
+	if hasHttp && hasRpc {
+		panic("http_port和rpc_port不能同时配置")
+	}
+
 	//初始化api服务
-	if len(conf.Configer.ApiConf.HttpPort) > 0 {
+	if hasHttp {
 		app.GinEngine = gin.Default()
 		app.apiSvr = &http.Server{
 			Addr:    ":" + conf.Configer.ApiConf.HttpPort,
@@ -71,7 +78,7 @@ func NewApp(configFile string) *App {
 	}
 
 	//初始化rpc服务
-	if len(conf.Configer.ApiConf.RpcPort) > 0 {
+	if hasRpc {
 		app.rpcAddr = ":" + conf.Configer.ApiConf.RpcPort
 		app.RpcSvr = grpc.NewServer()
 	}

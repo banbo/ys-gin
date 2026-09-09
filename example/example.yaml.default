@@ -1,6 +1,5 @@
 system:
-  http_port: 8082
-  rpc_port: 8083
+  http_port: 8080
   run_mode: debug
   worker_id: 0
   param_secret: ceqcyxnprtj1tzch
