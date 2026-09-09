@@ -12,6 +12,11 @@ type ModelInterface interface {
 type Model struct {
 }
 
+// DatabaseAlias 默认返回 "default"，模型可覆盖
+func (m *Model) DatabaseAlias() string {
+	return "default"
+}
+
 // 列表
 type ModelList struct {
 	IsPage    bool        `json:"is_page"`    // 是否分页

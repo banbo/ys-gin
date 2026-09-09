@@ -8,5 +8,4 @@ type ApiConfig struct {
 	LogLevel    string
 	WorkerID    int64
 	ParamSecret string
-	Dbs         string
 }

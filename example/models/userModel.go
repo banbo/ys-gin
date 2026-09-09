@@ -20,11 +20,6 @@ type UserModel struct {
 	Age         int    `gorm:"column:age" json:"age"`
 }
 
-// 库别名
-func (UserModel) DatabaseAlias() string {
-	return "example"
-}
-
 // 表名
 func (UserModel) TableName() string {
 	return "users"

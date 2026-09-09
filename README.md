@@ -25,42 +25,46 @@ github.com
 
 
 ### 配置说明
+支持 INI、YAML、JSON、XML 格式，根据文件后缀自动识别。
+
+**YAML 格式示例：**
+```yaml
+system:
+  http_port: 8080
+  rpc_port: 8081
+  run_mode: debug
+  worker_id: 0
+  param_secret: ceqcyxnprtj1t
+
+log:
+  path: ./app.log
+  level: debug
+
+db:
+  - alias: remote
+    driver_name: mysql
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    password: root
+    database: test
+    max_open: 20
+    max_idle: 10
+  - alias: local
+    driver_name: sqlite3
+    database: ./db/main
+
+redis:
+  host: 10.10.20.151
+  port: 6379
+  password: 123456
+  db: 0
+
+rpc_client:
+  example_svr: localhost:8083
 ```
-[system]
-http_port=8080                      #http服务端口
-rpc_port=8081                       #rpc服务端口
-run_mode=debug                      #debug、test、release
-worker_id=0                         #机器id，用于生成SnowflakeID，go项目：0-899，php项目：900-1023
-param_secret=ceqcyxnprtj1t          #参数一致性秘钥
-dbs=remote,local                    #多数据库实例，具体配置见下db-remote、db-local
 
-[log]
-path=/Volumes/WorkHD/workspace/go/src/github.com/banbo/ys-gin/example/example.log
-level=debug                         #debug、info、error
-
-[db-remote]
-driver_name=mysql
-host=127.0.0.1
-port=3306
-user=root
-password=root
-database=test
-max_open=20                         #最大连接数
-max_idle=10                         #最大空闲连接数
-
-[db-local]
-driver_name=sqlite3
-database=./db/main
-
-[redis]
-host=10.10.20.151
-port=6379
-password=123456
-db=0
-
-[rpc_client]
-example_svr=localhost:8083          #rpc服务器地址
-```
+> alias 可选，不设置则默认为 "default"
 
 
 ### 运行例子

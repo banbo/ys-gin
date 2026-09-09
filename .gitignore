@@ -4,4 +4,5 @@
 /example*/example.exe
 /example*/*.log
 /example*/*.conf
+/example*/*.yaml
 /example*/proto/*.pb.go

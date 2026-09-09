@@ -1,7 +1,9 @@
 package conf
 
 import (
+	"fmt"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	beeConfig "github.com/astaxie/beego/config"
@@ -68,7 +70,6 @@ func (c *config) load() {
 	c.ApiConf.RpcPort = c.BeeConfiger.String(c.key("system", "rpc_port"))
 	c.ApiConf.RunMode = c.BeeConfiger.String(c.key("system", "run_mode"))
 	c.ApiConf.ParamSecret = c.BeeConfiger.String(c.key("system", "param_secret"))
-	c.ApiConf.Dbs = c.BeeConfiger.String(c.key("system", "dbs"))
 
 	if c.BeeConfiger.String(c.key("system", "worker_id")) != "" {
 		c.ApiConf.WorkerID, err = c.BeeConfiger.Int64(c.key("system", "worker_id"))
@@ -103,42 +104,40 @@ func (c *config) load() {
 
 //读取数据库配置
 func (c *config) loadDbs() {
-	// 数据库配置
-	dbs := strings.Split(c.ApiConf.Dbs, ",")
-	c.DbConf = make([]DbConfig, 0, len(dbs))
-	if len(dbs) > 0 && len(dbs[0]) > 0 {
-		for _, db := range dbs {
-			prefix := "db-" + db
+	c.DbConf = make([]DbConfig, 0)
 
-			//获取最大连接数，如果配置了
-			var maxOpen, maxIdle int
-			var err error
-			if c.BeeConfiger.String(c.key(prefix, "max_open")) != "" {
-				maxOpen, err = c.BeeConfiger.Int(c.key(prefix, "max_open"))
-				if err != nil {
-					panic("读取db::max_open配置出错")
-				}
+	// 尝试从 db 数组读取
+	if dbList, err := c.BeeConfiger.DIY("db"); err == nil {
+		if arr, ok := dbList.([]interface{}); ok {
+			for _, item := range arr {
+				if m, ok := item.(map[string]interface{}); ok {
+					alias := "default"
+					if v, ok := m["alias"]; ok {
+						alias = fmt.Sprintf("%v", v)
+					}
 
-				maxIdle, err = c.BeeConfiger.Int(c.key(prefix, "max_idle"))
-				if err != nil {
-					panic("读取db::max_idle配置出错")
+					dbConfig := DbConfig{
+						Alias:      alias,
+						DriverName: fmt.Sprintf("%v", m["driver_name"]),
+						Database:   fmt.Sprintf("%v", m["database"]),
+						Host:       fmt.Sprintf("%v", m["host"]),
+						Port:       fmt.Sprintf("%v", m["port"]),
+						User:       fmt.Sprintf("%v", m["user"]),
+						Password:   fmt.Sprintf("%v", m["password"]),
+						Charset:    fmt.Sprintf("%v", m["charset"]),
+					}
+
+					if v, ok := m["max_open"]; ok {
+						dbConfig.MaxOpen, _ = strconv.Atoi(fmt.Sprintf("%v", v))
+					}
+					if v, ok := m["max_idle"]; ok {
+						dbConfig.MaxIdle, _ = strconv.Atoi(fmt.Sprintf("%v", v))
+					}
+
+					c.DbConf = append(c.DbConf, dbConfig)
 				}
 			}
-
-			dbConfig := DbConfig{
-				Alias:      db,
-				DriverName: c.BeeConfiger.String(c.key(prefix, "driver_name")),
-				Database:   c.BeeConfiger.String(c.key(prefix, "database")),
-				Host:       c.BeeConfiger.String(c.key(prefix, "host")),
-				Port:       c.BeeConfiger.String(c.key(prefix, "port")),
-				User:       c.BeeConfiger.String(c.key(prefix, "user")),
-				Password:   c.BeeConfiger.String(c.key(prefix, "password")),
-				Charset:    c.BeeConfiger.String(c.key(prefix, "charset")),
-				MaxOpen:    maxOpen,
-				MaxIdle:    maxIdle,
-			}
-
-			c.DbConf = append(c.DbConf, dbConfig)
+			return
 		}
 	}
 }
