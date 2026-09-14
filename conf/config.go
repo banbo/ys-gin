@@ -125,6 +125,13 @@ func (c *config) loadDbs() {
 						User:       fmt.Sprintf("%v", m["user"]),
 						Password:   fmt.Sprintf("%v", m["password"]),
 						Charset:    fmt.Sprintf("%v", m["charset"]),
+						Loc:        "Local",
+					}
+
+					if v, ok := m["loc"]; ok {
+						if s := fmt.Sprintf("%v", v); s != "" && s != "<nil>" {
+							dbConfig.Loc = s
+						}
 					}
 
 					if v, ok := m["max_open"]; ok {

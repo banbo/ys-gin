@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"net/url"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
@@ -80,8 +81,12 @@ func getDialector(db conf.DbConfig) (gorm.Dialector, error) {
 
 	switch db.DriverName {
 	case "mysql":
-		dataSource = fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
-			db.User, db.Password, db.Host, db.Port, db.Database, db.Charset)
+		loc := db.Loc
+		if loc == "" {
+			loc = "Local"
+		}
+		dataSource = fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=%s",
+			db.User, db.Password, db.Host, db.Port, db.Database, db.Charset, url.QueryEscape(loc))
 		return mysql.Open(dataSource), nil
 	case "postgres":
 		dataSource = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
