@@ -3,7 +3,7 @@ package models
 import (
 	"strconv"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/banbo/ys-gin/errors"
 	"github.com/banbo/ys-gin/id"
@@ -15,7 +15,7 @@ import (
 
 type UserModel struct {
 	model.Model `gorm:"-"`
-	Uid         string `gorm:"column:uid;primary_key" json:"uid"`
+	Uid         string `gorm:"column:uid;primaryKey" json:"uid"`
 	Name        string `gorm:"column:name" json:"name"`
 	Age         int    `gorm:"column:age" json:"age"`
 }
