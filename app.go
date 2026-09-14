@@ -137,7 +137,5 @@ func (app *App) Run() {
 		app.RpcSvr.GracefulStop()
 	}
 
-	time.Sleep(10 * time.Second)
-
 	log.Logger.Info("服务已退出")
 }
