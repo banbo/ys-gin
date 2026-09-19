@@ -3,6 +3,7 @@ package xhttp
 import (
 	"context"
 	"crypto/tls"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -70,6 +71,53 @@ func TestDoWithContext(t *testing.T) {
 	_, _, err := DefaultClient.DoWithContext(ctx, MethodGet, server.URL, nil)
 	if err == nil {
 		t.Fatal("expected context deadline error")
+	}
+}
+
+// TestDoStream 测试流式响应（Body 不预读）
+func TestDoStream(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("X-Test", "1")
+		_, _ = io.WriteString(w, "hello-stream")
+	}))
+	defer server.Close()
+
+	resp, err := DefaultClient.DoStream(MethodGet, server.URL, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+	if resp.Header.Get("X-Test") != "1" {
+		t.Fatalf("unexpected header: %s", resp.Header.Get("X-Test"))
+	}
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(b) != "hello-stream" {
+		t.Fatalf("unexpected body: %q", string(b))
+	}
+}
+
+// TestWithRequestHeaderAndHook 测试多值 header 透传与请求钩子
+func TestWithRequestHeaderAndHook(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if got := r.Header.Values("X-Multi"); len(got) != 2 || got[0] != "a" || got[1] != "b" {
+			t.Errorf("unexpected X-Multi: %v", got)
+		}
+		if r.Header.Get("X-Hooked") != "y" {
+			t.Errorf("hook not applied: %s", r.Header.Get("X-Hooked"))
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer server.Close()
+
+	h := http.Header{"X-Multi": []string{"a", "b"}}
+	_, _, err := DefaultClient.Do(MethodGet, server.URL, nil,
+		WithRequestHeader(h),
+		WithRequestHook(func(r *http.Request) { r.Header.Set("X-Hooked", "y") }))
+	if err != nil {
+		t.Fatal(err)
 	}
 }
 
