@@ -57,6 +57,33 @@ func (c *httpClient) WithTransport(transport http.RoundTripper) *httpClient {
 	return c
 }
 
+// WithHTTP2 显式启用HTTP/2（同时保留HTTP/1.1）
+// 自定义Transport若设置了Dial/DialTLS/TLSClientConfig，默认会关闭HTTP/2，
+// 此时可用本方法重新开启；零值Transport本身已支持HTTP/2，无需调用。
+func (c *httpClient) WithHTTP2() *httpClient {
+	c.ensureTransport()
+	if t, ok := c.client.Transport.(*http.Transport); ok {
+		if t.Protocols == nil {
+			t.Protocols = new(http.Protocols)
+		}
+		t.Protocols.SetHTTP1(true)
+		t.Protocols.SetHTTP2(true)
+	}
+	return c
+}
+
+// ensureTransport 保证client拥有可修改的transport
+func (c *httpClient) ensureTransport() {
+	if c.client.Transport != nil {
+		return
+	}
+	if t, ok := http.DefaultTransport.(*http.Transport); ok {
+		c.client.Transport = t.Clone()
+	} else {
+		c.client.Transport = &http.Transport{}
+	}
+}
+
 // WithCheckRedirect client checkRedirect
 func (c *httpClient) WithCheckRedirect(checkRedirect func(req *http.Request, via []*http.Request) error) *httpClient {
 	c.client.CheckRedirect = checkRedirect
