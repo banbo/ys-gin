@@ -48,7 +48,7 @@ db:
     user: root
     password: root
     database: test
-    # loc：DATETIME 读写时区（DSN loc 参数），缺省 Local（兼容旧行为）；DB 存 UTC 墙钟时配 UTC
+    # loc：DATETIME 读写时区（DSN loc 参数），缺省 Local（兼容旧行为）；写原值如 UTC、Asia/Shanghai（勿预先转义）
     loc: Local
     max_open: 20
     max_idle: 10

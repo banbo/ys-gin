@@ -32,10 +32,10 @@ func NewApp(configFile string) *App {
 	conf.NewConfiger(configFile)
 	log.NewLogger()
 
-	if conf.Configer.BeeConfiger.String("system::worker_id") != "" {
+	if conf.Configer.Configured("system", "worker_id") {
 		id.NewIdWorker(conf.Configer.ApiConf.WorkerID)
 	}
-	if conf.Configer.BeeConfiger.String("redis::host") != "" {
+	if conf.Configer.Configured("redis", "host") {
 		cache.NewRedisClient()
 	}
 

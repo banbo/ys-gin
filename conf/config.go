@@ -28,6 +28,11 @@ func (c *config) key(section, key string) string {
 	return section + "::" + key
 }
 
+// Configured 判断指定配置项是否存在且非空，自动适配当前配置类型的 key 分隔符
+func (c *config) Configured(section, key string) bool {
+	return c.BeeConfiger.String(c.key(section, key)) != ""
+}
+
 func NewConfiger(filename string) {
 	Configer = new(config)
 
