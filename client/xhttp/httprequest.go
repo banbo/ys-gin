@@ -1,9 +1,10 @@
 package xhttp
 
 import (
+	"context"
+	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	netUrl "net/url"
 	"strings"
@@ -77,6 +78,12 @@ func (c *httpClient) WithTimeOut(timeout time.Duration) *httpClient {
 // Do 发http请求
 func (c *httpClient) Do(method HttpMethod, url string, body io.Reader, options ...OptionFn) (*http.Response, []byte,
 	error) {
+	return c.DoWithContext(context.Background(), method, url, body, options...)
+}
+
+// DoWithContext 发http请求，支持context取消/超时
+func (c *httpClient) DoWithContext(ctx context.Context, method HttpMethod, url string, body io.Reader,
+	options ...OptionFn) (*http.Response, []byte, error) {
 	// 设置参数
 	opt := &Option{
 		headers:     make(map[string]string),
@@ -100,10 +107,8 @@ func (c *httpClient) Do(method HttpMethod, url string, body io.Reader, options .
 		}
 	}
 
-	log.Println("http request url:", url)
-
 	// 构建request
-	request, err := http.NewRequest(string(method), url, body)
+	request, err := http.NewRequestWithContext(ctx, string(method), url, body)
 	if err != nil {
 		return nil, nil, errors.NewSys(err)
 	}
@@ -128,6 +133,11 @@ func (c *httpClient) Do(method HttpMethod, url string, body io.Reader, options .
 		return nil, nil, errors.NewSys(err)
 	}
 
+	// 可选：>=400 视为错误
+	if opt.failOnHttpError && response.StatusCode >= http.StatusBadRequest {
+		return response, responseBody, errors.NewSys(fmt.Sprintf("http status code: %d", response.StatusCode))
+	}
+
 	return response, responseBody, nil
 }
 
@@ -138,6 +148,9 @@ type Option struct {
 
 	// query参数
 	queryParams map[string]string
+
+	// 是否将HTTP状态码>=400视为错误
+	failOnHttpError bool
 }
 
 // OptionFn
@@ -172,5 +185,12 @@ func WithQueryParams(queryParams map[string]string) OptionFn {
 func WithQueryParam(key string, value string) OptionFn {
 	return func(o *Option) {
 		o.queryParams[key] = value
+	}
+}
+
+// WithFailOnHttpError 当HTTP状态码>=400时返回错误
+func WithFailOnHttpError() OptionFn {
+	return func(o *Option) {
+		o.failOnHttpError = true
 	}
 }
